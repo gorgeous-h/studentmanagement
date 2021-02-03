@@ -1,0 +1,45 @@
+#toolbar {
+    font-size:1rem;
+    padding-top:1.5em;
+    padding-left:1.5em;
+}
+.search p {
+    display: inline-block;
+    margin: 0;
+    margin-right:1em;
+}
+.search label {
+    margin-right:1em;
+}
+.button {
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.user_form {
+    font-size: 1rem;
+    margin-top: 24px;
+}
+.user_form>p {
+    max-width: 15em;
+    margin: 1em auto;
+}
+.user_form label {
+    display: inline-block;
+    width: 3em;
+    margin-right: 1em;
+}
+.user_form_button {
+    text-align: center;
+    margin: 20px;
+}
+.user_form_button>a {
+    margin-right: 5px;
+}
+.user_form_button span {
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+.datagrid-btable .datagrid-cell{
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}

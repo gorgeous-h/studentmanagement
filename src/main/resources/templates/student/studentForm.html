@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{/static/jquery-easyui/jquery.min.js}"></script>
+    <script th:src="@{/static/jquery-easyui/jquery.easyui.min.js}"></script>
+    <script th:src="@{/static/jquery-easyui/locale/easyui-lang-zh_CN.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jquery-easyui/themes/default/easyui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jquery-easyui/themes/icon.css}" />
+    <link rel="stylesheet" th:href="@{/static/css/studentForm.css}" />
+    <style>
+    </style>
+    <script th:inline="javascript">
+        var basePath = /*[[${#request.getContextPath()}]]*/ "http://localhost:8081/studentmanagement";
+        var provinces = [[${provinces}]];
+        var schoolTypes = [[${schoolTypes}]];
+        var nations = [[${nations}]];
+        var studentId = [[${studentId}]];
+    </script>
+    <script th:src="@{/static/js/studentForm.js}"></script>
+    <title>学生表单</title>
+</head>
+<body>
+<div class="container">
+    <form id="studentForm" method="post">
+        <input name="id" type="hidden" />
+        <div class="studentForm">
+            <label for="province">省市区</label><div class="oneMarginRight"><input class="easyui-combobox" id="province" data-options="prompt:'省'" /></div><div class="oneMarginRight cityRegionWrap"><input class="easyui-combobox" id="city" data-options="prompt:'市'" /></div><div class="oneMarginRight cityRegionWrap"><input class="easyui-combobox" id="region" data-options="prompt:'区'" /></div>
+            <p><label for="schoolType">学校类型</label><input class="easyui-combobox" id="schoolType" /></p>
+            <p><label for="school">学校</label><input class="easyui-combobox" id="school" name="schoolId" data-options="required:true" /></p>
+            <p><label for="name">学生姓名</label><input class="easyui-textbox" name="name" id="name" data-options="required:true" /></p>
+            <p><a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="student.save()" id="save"><span class="button">保存</span></a>
+                <a class="easyui-linkbutton" data-options="iconCls:'pic_157'" onclick="student.detail()" style="margin-left:5px;"><span class="button">更多信息</span></a>
+            </p>
+            <div class="studentDetail" id="studentDetail">
+                <hr/>
+                <p><label for="gender">性别</label><input class="easyui-combobox" id="gender" name="gender" /></p>
+                <p><label for="nation">民族</label><input class="easyui-combobox" id="nation" name="nationId" /></p>
+                <p style="margin-bottom:1em;"><label for="birthday">出生日期</label><input class="easyui-datebox" id="birthday" name="birthday" data-options="prompt:'yyyy-mm-dd'" /></p>
+                <label for="addressProvince">住址(省市区)</label><div class="oneMarginRight"><input class="easyui-combobox" id="addressProvince" data-options="prompt:'省'" /></div><div class="oneMarginRight addressCityRegionWrap"><input class="easyui-combobox" id="addressCity" data-options="prompt:'市'" /></div><div class="oneMarginRight addressCityRegionWrap"><input class="easyui-combobox" id="addressRegion" name="addressRegionId" data-options="prompt:'区'" /></div>
+                <p><label for="address">住址(详细地址)</label><input class="easyui-textbox" id="address" name="address" /></p>
+                <p><label for="idNumber">身份证号</label><input class="easyui-textbox" id="idNumber" name="idNumber" /></p>
+                <p><label for="mobilePhoneNumber">手机号码</label><input class="easyui-textbox" id="mobilePhoneNumber" name="mobilePhoneNumber" /></p>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

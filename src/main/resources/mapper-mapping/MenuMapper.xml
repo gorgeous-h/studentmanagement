@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yhpt.studentmanagement.mapper.MenuMapper">
+    <select id="getMenus" resultType="com.yhpt.studentmanagement.entity.Menu">
+        SELECT * FROM menu m WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND m.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+        <choose>
+            <when test="sort!=null and sort!='' and order!=null and order!=''">
+                ORDER BY ${sort} ${order}, id ASC
+            </when>
+            <otherwise>
+                ORDER BY id ASC
+            </otherwise>
+        </choose>
+        LIMIT ${(pageNO-1)*pageSize}, #{pageSize}
+    </select>
+    <select id="getMenusCount" resultType="java.lang.Integer">
+        SELECT COUNT(m.id) FROM menu m WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND m.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+    </select>
+    <select id="getMenuById" resultType="com.yhpt.studentmanagement.entity.Menu">
+        SELECT * FROM menu m WHERE m.id = #{id}
+    </select>
+    <insert id="insertMenu" parameterType="com.yhpt.studentmanagement.entity.Menu">
+        INSERT INTO menu(name, url, description, sortNum) VALUES (#{name}, #{url}, #{description}, #{sortNum});
+    </insert>
+    <update id="updateMenu" parameterType="com.yhpt.studentmanagement.entity.Menu">
+        UPDATE menu SET name = #{name}, url = #{url}, description = #{description}, sortNum = #{sortNum} WHERE id = #{id}
+    </update>
+    <delete id="deleteMenu" parameterType="int">
+        DELETE FROM menu WHERE id = #{menuId}
+    </delete>
+    <!-- mybatis报错java.lang.UnsupportedOperationException原因及处理方法 -->
+    <!-- https://blog.csdn.net/qq_28483283/article/details/80696292 -->
+    <select id="getRolesByMenuId" parameterType="int" resultType="java.lang.Integer">
+        SELECT rm.roleId FROM role_menu rm WHERE rm.menuId = #{menuId}
+    </select>
+    <select id="getRolesSorted" resultType="com.yhpt.studentmanagement.entity.Role">
+        SELECT * FROM role r
+        <if test="sortName!=null and sortName!='' and sortOrder!=null and sortOrder!=''">
+            ORDER BY ${sortName} ${sortOrder}
+        </if>
+    </select>
+    <delete id="deleteMenuRole" parameterType="int">
+        DELETE FROM role_menu WHERE menuId = #{menuId}
+    </delete>
+    <insert id="insertMenuRole">
+        INSERT INTO role_menu(menuId, roleId) VALUES (#{menuId}, #{roleId});
+    </insert>
+    <delete id="deleteMenuRole2">
+        DELETE FROM role_menu WHERE menuId = #{menuId} and roleId = #{roleId}
+    </delete>
+</mapper>

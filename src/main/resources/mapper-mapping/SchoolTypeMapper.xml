@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yhpt.studentmanagement.mapper.SchoolTypeMapper">
+    <select id="getSchoolTypes" resultType="com.yhpt.studentmanagement.entity.Role">
+        SELECT * FROM schooltype st WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND st.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+        LIMIT ${(pageNO-1)*pageSize}, #{pageSize}
+    </select>
+    <select id="getSchoolTypesCount" resultType="java.lang.Integer">
+        SELECT COUNT(st.id) FROM schooltype st WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND st.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+    </select>
+    <insert id="insertSchoolType" parameterType="com.yhpt.studentmanagement.entity.SchoolType">
+        INSERT INTO schooltype(name, createTime) VALUES (#{name}, #{createTime});
+    </insert>
+    <update id="updateSchoolType" parameterType="com.yhpt.studentmanagement.entity.SchoolType">
+        UPDATE schooltype SET name = #{name} WHERE id = #{id}
+    </update>
+    <delete id="deleteSchoolType" parameterType="int">
+        DELETE FROM schooltype WHERE id = #{schoolTypeId}
+    </delete>
+    <select id="getAllSchoolType" resultType="com.yhpt.studentmanagement.entity.SchoolType">
+        SELECT st.id, st.name FROM schooltype st ORDER BY st.id ASC
+    </select>
+</mapper>

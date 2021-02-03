@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yhpt.studentmanagement.mapper.NationMapper">
+    <select id="getNations" resultType="com.yhpt.studentmanagement.entity.Nation">
+        SELECT * FROM nation n WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND n.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+        LIMIT ${(pageNO-1)*pageSize}, #{pageSize}
+    </select>
+    <select id="getNationsCount" resultType="java.lang.Integer">
+        SELECT COUNT(n.id) FROM nation n WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND n.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+    </select>
+    <insert id="insertNation" parameterType="com.yhpt.studentmanagement.entity.Nation">
+        INSERT INTO nation(name, createTime) VALUES (#{name}, #{createTime});
+    </insert>
+    <update id="updateNation" parameterType="com.yhpt.studentmanagement.entity.Nation">
+        UPDATE nation SET name = #{name} WHERE id = #{id}
+    </update>
+    <delete id="deleteNation" parameterType="int">
+        DELETE FROM nation WHERE id = #{nationId}
+    </delete>
+    <select id="getAllNation" resultType="com.yhpt.studentmanagement.entity.Nation">
+        SELECT n.id, n.name FROM nation n ORDER BY n.id ASC
+    </select>
+    <insert id="saveNationsByExcel">
+        INSERT INTO nation (name, createTime) VALUES
+        <foreach collection="nations" item="nation" separator=",">
+            (#{nation.name}, NOW())
+        </foreach>
+    </insert>
+</mapper>

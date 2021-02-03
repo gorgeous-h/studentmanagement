@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{/static/jquery-easyui/jquery.min.js}"></script>
+    <script th:src="@{/static/jquery-easyui/jquery.easyui.min.js}"></script>
+    <script th:src="@{/static/jquery-easyui/locale/easyui-lang-zh_CN.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jquery-easyui/themes/default/easyui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jquery-easyui/themes/icon.css}" />
+    <link rel="stylesheet" th:href="@{/static/css/schoolForm.css}" />
+    <style>
+        .oneMarginRight {
+            display: inline-block;
+            margin-right: 16px;
+        }
+        @media screen and (max-width: 615px) {
+            /*市区换行*/
+            .oneMarginRight.cityRegionWrap {
+                display: block;
+                margin-top: 16px;
+                padding-left: 5rem;
+            }
+        }
+    </style>
+    <script th:inline="javascript">
+        var basePath = /*[[${#request.getContextPath()}]]*/ "http://localhost:8081/studentmanagement";
+        var provinces = [[${provinces}]];
+        var schoolTypes = [[${schoolTypes}]];
+        var schoolId = [[${schoolId}]];
+    </script>
+    <script th:src="@{/static/js/schoolForm.js}"></script>
+    <title>学校表单</title>
+</head>
+<body>
+    <div class="container">
+        <form id="schoolForm" method="post">
+            <input name="id" type="hidden" />
+            <div class="schoolForm">
+                <label for="province">省市区</label><div class="oneMarginRight"><input class="easyui-combobox" id="province" data-options="prompt:'省',required:true" name="provinceId" /></div><div class="oneMarginRight cityRegionWrap"><input class="easyui-combobox" id="city" data-options="prompt:'市',required:true" name="cityId" /></div><div class="oneMarginRight cityRegionWrap"><input class="easyui-combobox" id="region" name="regionId" data-options="prompt:'区',required:true" /></div>
+                <p><label for="schoolType">学校类型</label><input class="easyui-combobox" id="schoolType" name="schoolTypeId" /></p>
+                <p><label for="school">学校</label><input class="easyui-textbox" id="school" name="name" data-options="required:true" /></p>
+                <p><a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="school.save()" id="save"><span style="font-size:0.95rem;letter-spacing:2px;">保存</span></a></p>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

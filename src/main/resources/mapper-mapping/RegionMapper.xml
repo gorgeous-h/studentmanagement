@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yhpt.studentmanagement.mapper.RegionMapper">
+    <select id="getRegions" resultType="com.yhpt.studentmanagement.vo.RegionVO">
+        SELECT r.*, c.name cityName, p.name provinceName
+        FROM region r
+        LEFT JOIN city c ON c.id = r.cityId
+        LEFT JOIN province p on p.id = c.provinceId
+        WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND r.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+        ORDER BY c.id ASC
+        LIMIT ${(pageNO-1)*pageSize}, #{pageSize}
+    </select>
+    <select id="getRegionsCount" resultType="java.lang.Integer">
+        SELECT COUNT(r.id) FROM region r WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND r.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+    </select>
+    <insert id="insertRegion" parameterType="com.yhpt.studentmanagement.vo.RegionVO">
+        INSERT INTO region(name, cityId, createTime) VALUES (#{name}, #{cityId}, #{createTime});
+    </insert>
+    <update id="updateRegion" parameterType="com.yhpt.studentmanagement.vo.RegionVO">
+        UPDATE region SET name = #{name}, cityId = #{cityId} WHERE id = #{id}
+    </update>
+    <select id="getRegionVOById" resultType="com.yhpt.studentmanagement.vo.RegionVO">
+        SELECT r.*, p.id provinceId FROM region r
+        LEFT JOIN city c ON c.id = r.cityId
+        LEFT JOIN province p ON p.id = c.provinceId
+        WHERE r.id = #{regionId}
+    </select>
+    <delete id="deleteRegion" parameterType="int">
+        DELETE FROM region WHERE id = #{regionId}
+    </delete>
+    <select id="getRegionsByCityId" resultType="com.yhpt.studentmanagement.entity.Region">
+        SELECT r.id, r.name FROM region r WHERE r.cityId = #{cityId} ORDER BY r.id ASC
+    </select>
+    <insert id="saveRegionsByExcel">
+        INSERT INTO region(cityId, name, createTime) VALUES
+        <foreach collection="regions" item="region" separator=",">
+            (#{region.cityId}, #{region.name}, NOW())
+        </foreach>
+    </insert>
+</mapper>

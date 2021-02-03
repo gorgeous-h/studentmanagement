@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yhpt.studentmanagement.mapper.StudentMapper">
+    <select id="getStudents" resultType="com.yhpt.studentmanagement.vo.StudentVO">
+        SELECT s.*, CONCAT_WS('/',p.name,c.name, r.name) schoolRegionName, st.name schoolTypeName, sc.name schoolName
+        FROM student s
+        LEFT JOIN school sc ON sc.id = s.schoolId
+        LEFT JOIN region r ON r.id = sc.regionId
+        LEFT JOIN city c ON c.id = r.cityId
+        LEFT JOIN province p ON p.id = c.provinceId
+        LEFT JOIN schooltype st ON st.id = sc.schoolTypeId
+        WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND s.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+        LIMIT ${(pageNO-1)*pageSize}, #{pageSize}
+    </select>
+    <select id="getStudentsCount" resultType="java.lang.Integer">
+        SELECT COUNT(s.id) FROM student s WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND s.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+    </select>
+    <insert id="insertStudent" parameterType="com.yhpt.studentmanagement.vo.StudentVO" useGeneratedKeys="true" keyProperty="id">
+        <!-- 学校、学生姓名、性别、民族、出生日期、住址地区、住址详细地址、身份证号、手机号码 -->
+        INSERT INTO student(createTime, name, schoolId, gender, nationId, birthday, addressRegionId, address, idNumber, mobilePhoneNumber)
+        VALUES (#{createTime}, #{name}, #{schoolId}, #{gender}, #{nationId}, #{birthday}, #{addressRegionId}, #{address}, #{idNumber}, #{mobilePhoneNumber});
+    </insert>
+    <update id="updateStudent" parameterType="com.yhpt.studentmanagement.vo.StudentVO" useGeneratedKeys="true" keyProperty="id">
+        <!-- 学校、学生姓名、性别、民族、出生日期、住址地区、住址详细地址、身份证号、手机号码 -->
+        UPDATE student SET name = #{name}, schoolId = #{schoolId}, gender = #{gender},
+        nationId = #{nationId}, birthday = #{birthday}, addressRegionId = #{addressRegionId},
+        address = #{address}, idNumber = #{idNumber}, mobilePhoneNumber = #{mobilePhoneNumber}
+        WHERE id = #{id}
+    </update>
+    <select id="getStudentVO" resultType="com.yhpt.studentmanagement.vo.StudentVO">
+        SELECT s.* , p.id provinceId, c.id cityId, r.id regionId, st.id schoolTypeId, p2.id addressProvinceId, c2.id addressCityId
+        FROM student s
+        LEFT JOIN school sc ON sc.id = s.schoolId
+        LEFT JOIN region r ON r.id = sc.regionId
+        LEFT JOIN city c ON c.id = r.cityId
+        LEFT JOIN province p ON p.id = c.provinceId
+        LEFT JOIN schooltype st ON st.id = sc.schoolTypeId
+        LEFT JOIN region r2 ON r2.id = s.addressRegionId
+        LEFT JOIN city c2 ON c2.id = r2.cityId
+        LEFT JOIN province p2 ON p2.id = c2.provinceId
+        WHERE s.id = #{studentId}
+    </select>
+    <delete id="deleteStudent" parameterType="int">
+        DELETE FROM student WHERE id = #{studentId}
+    </delete>
+</mapper>

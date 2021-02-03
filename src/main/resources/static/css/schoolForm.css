@@ -1,0 +1,16 @@
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 24px;
+}
+.schoolForm>p {
+    margin-top: 16px;
+    margin-bottom: 0;
+}
+.schoolForm label {
+    font-size: 1rem;
+    display: inline-block;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    width:4em;
+}

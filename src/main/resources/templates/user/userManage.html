@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{/static/jquery-easyui/jquery.min.js}"></script>
+    <script th:src="@{/static/jquery-easyui/jquery.easyui.min.js}"></script>
+    <script th:src="@{/static/jquery-easyui/locale/easyui-lang-zh_CN.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jquery-easyui/themes/default/easyui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jquery-easyui/themes/icon.css}" />
+    <link rel="stylesheet" th:href="@{/static/css/user.css}" />
+    <script type="text/javascript" th:src="@{/static/js/encrypte.js}"></script>
+    <style>
+    </style>
+    <script th:inline="javascript">
+        var basePath = /*[[${#request.getContextPath()}]]*/ "http://localhost:8081/studentmanagement";
+        var userId = [[${session.yhpt_user.id}]];
+        var username = [[${session.yhpt_user.username}]];
+        var role = [[${session.yhpt_user.role}]];
+        var roles = [[${roles}]];
+    </script>
+    <script type="text/javascript" th:src="@{/static/js/userManage.js}"></script>
+    <title>用户字典</title>
+</head>
+<body style="margin:0;">
+<table id="users"></table>
+<div id="toolbar">
+    <div class="search">
+        <p><label for="nickname_s">昵称</label><input class="easyui-textbox" id="nickname_s"></p>
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="user.search()">查询</a>
+    </div>
+    <div class="button">
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="user.add()">添加</a>
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="user.edit()">修改</a>
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true,disabled:true" onclick="user.remove()" id="remove">删除</a>
+        <!--<a class="easyui-linkbutton" data-options="iconCls:'pic_356',plain:true,disabled:true" onclick="user.modifyRole()" id="modifyRole">用户角色</a>-->
+    </div>
+</div>
+<div id="user_dialog" class="easyui-dialog" data-options="closed:true,modal:true" style="width:500px;">
+    <form id="user_form" method="post">
+        <input type="hidden" name="id" id="id" />
+        <div class="user_form">
+            <p><label for="username">用户名</label><input class="easyui-textbox" id="username" name="username" data-options="required:true" /></p>
+            <p><label for="password">密码</label><input class="easyui-passwordbox" id="password" name="password" data-options="required:true" /></p>
+            <!--<p><label for="password2">确认密码</label><input class="easyui-passwordbox" id="password2" /></p>-->
+            <p><label for="nickname">昵称</label><input class="easyui-textbox" id="nickname" name="nickname" data-options="required:true" /></p>
+            <p><label for="email">邮箱</label><input class="easyui-textbox" id="email" name="email" /></p>
+            <p><label for="role">角色</label><input class="easyui-combobox" id="role" name="roleId" /></p>
+            <div class="user_form_button">
+                <a class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="user.save();"><span>保存</span></a>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+input[class^="easyui-"] {
+    width: 140px;
+}
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 24px;
+}
+.studentForm p {
+    margin-top: 16px;
+    margin-bottom: 0;
+}
+.studentForm label {
+    font-size: 1rem;
+    display: inline-block;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    width: 4em;
+}
+.studentForm .button {
+    font-size:0.95rem;
+}
+.studentDetail {
+    display: none;
+}
+.studentDetail label {
+    width: 7em;
+}
+.oneMarginRight {
+    display: inline-block;
+    margin-right: 16px;
+}
+@media screen and (max-width: 677px) {
+    /*市区换行*/
+    .oneMarginRight.cityRegionWrap {
+        display: block;
+        margin-top: 16px;
+        padding-left: 5rem;
+    }
+    .studentDetail .addressCityRegionWrap {
+        display: block;
+        margin-top: 16px;
+        padding-left: 8rem;
+    }
+}
+@media screen and (max-width: 335px) {
+    /*市区换行*/
+    .studentDetail .addressCityRegionWrap {
+        padding-left: 0;
+    }
+}
+@media screen and (max-width: 315px) {
+    /*市区换行*/
+    .oneMarginRight.cityRegionWrap {
+        padding-left: 0;
+    }
+}

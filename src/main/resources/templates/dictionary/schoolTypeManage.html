@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{/static/jquery-easyui/jquery.min.js}"></script>
+    <script th:src="@{/static/jquery-easyui/jquery.easyui.min.js}"></script>
+    <script th:src="@{/static/jquery-easyui/locale/easyui-lang-zh_CN.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jquery-easyui/themes/default/easyui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jquery-easyui/themes/icon.css}" />
+    <style>
+        #toolbar {
+            font-size:1rem;
+            padding-top:1.5em;
+            padding-left:1.5em;
+        }
+        .search p {
+            display: inline-block;
+            margin: 0;
+            margin-right:1em;
+        }
+        .search label {
+            margin-right:1em;
+        }
+        .button {
+            margin-top:10px;
+            margin-bottom:10px;
+        }
+        .datagrid-btable .datagrid-cell{
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+    </style>
+    <script th:inline="javascript">
+        var basePath = /*[[${#request.getContextPath()}]]*/ "http://localhost:8081/studentmanagement";
+    </script>
+    <script th:src="@{/static/js/jquery.edatagrid.js}"></script>
+    <script th:src="@{/static/js/schoolTypeManage.js}"></script>
+    <title>学校类型</title>
+</head>
+<body>
+<table id="schoolTypes"></table>
+<div id="toolbar">
+    <div class="search">
+        <p><label for="name">学校类型</label><input class="easyui-textbox" id="name"></p>
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="searchh()">查询</a>
+    </div>
+    <div class="button">
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="addSchoolType();">新建</a>
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$('#schoolTypes').edatagrid('destroyRow')">删除</a>
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="$('#schoolTypes').edatagrid('saveRow')">保存</a>
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="$('#schoolTypes').edatagrid('cancelRow')">撤销</a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{/static/jquery-easyui/jquery.min.js}"></script>
+    <script th:src="@{/static/jquery-easyui/jquery.easyui.min.js}"></script>
+    <script th:src="@{/static/jquery-easyui/locale/easyui-lang-zh_CN.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jquery-easyui/themes/default/easyui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jquery-easyui/themes/icon.css}" />
+    <style>
+        .saveButton {
+            margin-left: 16px;
+            margin-right: 16px;
+        }
+        .menuTitle {
+            display: inline-block;
+        }
+    </style>
+    <script th:inline="javascript">
+        var basePath = /*[[${#request.getContextPath()}]]*/ "http://localhost:8081/studentmanagement";
+        var menuId = [[${menuId}]];
+        var menuName = [[${menuName}]];
+    </script>
+    <script type="text/javascript" th:src="@{/static/js/menuRoleForm.js}"></script>
+    <title>菜单角色</title>
+</head>
+<body>
+    <a class="easyui-linkbutton saveButton" data-options="iconCls:'icon-save'" onclick="saveMenuRole();"><span>保存</span></a>
+    <p th:text="${menuName}" class="menuTitle">没有选中菜单</p>
+    <hr/>
+    <p style="margin-top:10px;margin-bottom:5px;padding-left:16px;"><label for="selectAll">全选</label><input title="全选/反选" type="checkbox" id="selectAll" onClick="treeChecked(this,'roles')" /></p>
+    <ul id="roles"></ul>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yhpt.studentmanagement.mapper.LoginMapper">
+    <select id="getUserByUsername" resultMap="UserAndRole">
+        SELECT * FROM user u WHERE u.username = #{username}
+    </select>
+    <resultMap id="UserAndRole" type="com.yhpt.studentmanagement.entity.User">
+        <id property="id" column="id" />
+        <result property="username" column="username" />
+        <association property="role" select="getRole" column="roleId" />
+    </resultMap>
+    <select id="getRole" resultType="com.yhpt.studentmanagement.entity.Role">
+        SELECT r.id, r.name FROM role r WHERE r.id = #{id}
+    </select>
+</mapper>

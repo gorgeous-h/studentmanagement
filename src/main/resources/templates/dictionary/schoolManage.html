@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script th:src="@{/static/jquery-easyui/jquery.min.js}"></script>
+    <script th:src="@{/static/jquery-easyui/jquery.easyui.min.js}"></script>
+    <script th:src="@{/static/jquery-easyui/locale/easyui-lang-zh_CN.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jquery-easyui/themes/default/easyui.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/static/jquery-easyui/themes/icon.css}" />
+    <link rel="stylesheet" th:href="@{/static/css/school.css}" />
+    <script th:inline="javascript">
+        var basePath = /*[[${#request.getContextPath()}]]*/ "http://localhost:8081/studentmanagement";
+    </script>
+    <script th:src="@{/static/js/schoolManage.js}"></script>
+    <title>学校字典</title>
+</head>
+<body>
+<table id="schools"></table>
+<div id="toolbar">
+    <div class="search">
+        <p><label for="name_s">学校</label><input class="easyui-textbox" id="name_s"></p>
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="school.search()">查询</a>
+    </div>
+    <div class="button">
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="school.add()">添加</a>
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="school.edit()">修改</a>
+        <a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="school.remove()" id="remove">删除</a>
+    </div>
+</div>
+</body>
+</html>

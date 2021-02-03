@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yhpt.studentmanagement.mapper.CityMapper">
+    <select id="getCities" resultType="com.yhpt.studentmanagement.vo.CityVO">
+        SELECT c.*, p.name provinceName FROM city c
+        LEFT JOIN province p ON p.id = c.provinceId
+        WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND c.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+        ORDER BY c.id ASC
+        LIMIT ${(pageNO-1)*pageSize}, #{pageSize}
+    </select>
+    <select id="getCitiesCount" resultType="java.lang.Integer">
+        SELECT COUNT(c.id) FROM city c WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND c.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+    </select>
+    <insert id="insertCity" parameterType="com.yhpt.studentmanagement.vo.CityVO">
+        INSERT INTO city(name, provinceId, createTime) VALUES (#{name}, #{provinceId}, #{createTime});
+    </insert>
+    <update id="updateCity" parameterType="com.yhpt.studentmanagement.vo.CityVO">
+        UPDATE city SET name = #{name}, provinceId = #{provinceId} WHERE id = #{id}
+    </update>
+    <delete id="deleteCity" parameterType="int">
+        DELETE FROM city WHERE id = #{roleId}
+    </delete>
+    <select id="getCitiesByProvinceId" resultType="com.yhpt.studentmanagement.entity.City">
+        SELECT c.id, c.name FROM city c WHERE c.provinceId = #{provinceId} ORDER BY c.id ASC
+    </select>
+    <insert id="saveCitiesByExcel">
+        INSERT INTO city(provinceId, name, createTime) VALUES
+        <foreach collection="cities" item="city" separator=",">
+            (#{city.provinceId}, #{city.name}, NOW())
+        </foreach>
+    </insert>
+</mapper>

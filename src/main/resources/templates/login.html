@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="static/jquery-easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="static/js/encrypte.js"></script>
+    <script type="text/javascript" src="static/js/login.js"></script>
+    <link rel="stylesheet" href="static/css/login.css" />
+    <script th:inline="javascript">
+        var basePath = /*[[${#request.getContextPath()}]]*/ "http://localhost:8081/studentmanagement";
+    </script>
+    <title>登录页</title>
+</head>
+<body>
+<div class="loginFormContainer">
+    <!--form的onsubmit里面要用return，避免表单刷新-->
+    <form class="loginForm" name="loginForm" onsubmit="return login()" method="post">
+        <div style="font-size:24px;color:#393b3d;font-weight:300;">学生管理系统</div>
+        <p class="field field-text"><label for="username">用户名</label><input id="username" name="username" /></p>
+        <p class="field field-text"><label for="password">密码</label><input id="password" name="password" type="password" /></p>
+        <button class="loginButton">登录</button>
+    </form>
+</div>
+<div id="error"></div>
+</body>
+</html>

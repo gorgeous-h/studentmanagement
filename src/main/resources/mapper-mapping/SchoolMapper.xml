@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.yhpt.studentmanagement.mapper.SchoolMapper">
+    <select id="getSchools" resultType="com.yhpt.studentmanagement.vo.SchoolVO">
+        SELECT s.*, p.name provinceName, c.name cityName, r.name regionName, st.name schoolTypeName
+        FROM school s
+        LEFT JOIN region r ON r.id = s.regionId
+        LEFT JOIN city c ON c.id = r.cityId
+        LEFT JOIN province p ON p.id = c.provinceId
+        LEFT JOIN schooltype st ON st.id = s.schoolTypeId
+        WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND s.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+        LIMIT ${(pageNO-1)*pageSize}, #{pageSize}
+    </select>
+    <select id="getSchoolsCount" resultType="java.lang.Integer">
+        SELECT COUNT(s.id) FROM school s WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND s.name LIKE CONCAT(CONCAT('%',#{name}),'%')
+        </if>
+    </select>
+    <insert id="insertSchool" parameterType="com.yhpt.studentmanagement.vo.SchoolVO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO school(createTime, name, regionId, schoolTypeId) VALUES (#{createTime}, #{name}, #{regionId}, #{schoolTypeId});
+    </insert>
+    <update id="updateSchool" parameterType="com.yhpt.studentmanagement.vo.SchoolVO" useGeneratedKeys="true" keyProperty="id">
+        UPDATE school SET name = #{name}, regionId = #{regionId}, schoolTypeId = #{schoolTypeId} WHERE id = #{id}
+    </update>
+    <select id="getSchoolVO" resultType="com.yhpt.studentmanagement.vo.SchoolVO">
+        SELECT s.*, p.id provinceId, c.id cityId FROM school s
+        LEFT JOIN region r ON r.id = s.regionId
+        LEFT JOIN city c ON c.id = r.cityId
+        LEFT JOIN province p ON p.id = c.provinceId
+        WHERE s.id = #{schoolId}
+    </select>
+    <delete id="deleteSchool" parameterType="int">
+        DELETE FROM school WHERE id = #{schoolId}
+    </delete>
+    <select id="getAllSchool" resultType="com.yhpt.studentmanagement.entity.School">
+        SELECT s.id, s.name FROM school s
+        LEFT JOIN region r ON r.id = s.regionId
+        LEFT JOIN city c ON c.id = r.cityId
+        LEFT JOIN province p ON p.id = c.provinceId
+        WHERE 1=1
+        <choose>
+            <when test="regionId!=null and regionId!=''">
+                AND s.regionId = #{regionId}
+            </when>
+            <otherwise>
+                <choose>
+                    <when test="cityId!=null and cityId!=''">
+                        AND c.id = #{cityId}
+                    </when>
+                    <otherwise>
+                        <if test="provinceId!=null and provinceId!=''">
+                            AND p.id = #{provinceId}
+                        </if>
+                    </otherwise>
+                </choose>
+            </otherwise>
+        </choose>
+        <if test="schoolTypeId!=null and schoolTypeId!=''">
+            AND s.schoolTypeId = #{schoolTypeId}
+        </if>
+        ORDER BY s.id ASC
+    </select>
+</mapper>
